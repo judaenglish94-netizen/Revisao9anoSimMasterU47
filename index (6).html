@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado Interativo de Inglês - 9º Ano</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #002147;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #000;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Scrollbar Estilizada */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #dc2626;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #b91c1c;
+    }
+
+    /* Header e Navegação */
+    header {
+      width: 100%;
+      max-width: 850px;
+      margin-bottom: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo {
+      max-width: 180px;
+      height: auto;
+      margin-bottom: 15px;
+      display: block;
+      border: 3px solid #dc2626;
+      border-radius: 10px;
+      background-color: #001026;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+      color: #ffffff;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    .nav-grid {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      max-width: 520px;
+    }
+
+    .nav-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      border: 2px solid #ffffff;
+      background-color: #001530;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background-color: #003366;
+    }
+
+    .nav-btn.active {
+      border-color: #f59e0b;
+      box-shadow: 0 0 8px #f59e0b;
+    }
+
+    .nav-btn.correct {
+      background-color: #16a34a !important;
+      border-color: #16a34a !important;
+      color: #fff;
+    }
+
+    .nav-btn.incorrect {
+      background-color: #dc2626 !important;
+      border-color: #dc2626 !important;
+      color: #fff;
+    }
+
+    /* Container Principal */
+    .container {
+      background-color: #ffffff;
+      border: 3px solid #dc2626;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 850px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .question-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .topic-badge {
+      background-color: #002147;
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    /* Caixa de Diálogo Contextualizada Acima da Questão */
+    .dialogue-context-box {
+      background-color: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #dc2626;
+      padding: 15px 18px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 0.98rem;
+      line-height: 1.65;
+      color: #0f172a;
+    }
+
+    .dialogue-context-box h4 {
+      margin-bottom: 8px;
+      color: #dc2626;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Enunciado */
+    .statement {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .highlight-sentence {
+      background-color: #fef08a;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-weight: 600;
+      color: #000;
+    }
+
+    /* Opções de Resposta */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 12px 15px;
+      border: 2px solid #cbd5e1;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+      background-color: #fff;
+    }
+
+    .option-item:hover {
+      background-color: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .option-item input[type="radio"] {
+      margin-top: 4px;
+      margin-right: 12px;
+      cursor: pointer;
+    }
+
+    .option-text {
+      font-size: 1rem;
+      color: #000;
+      line-height: 1.45;
+    }
+
+    .option-item.selected {
+      border-color: #dc2626;
+      background-color: #fef2f2;
+    }
+
+    .option-item.correct-bg {
+      background-color: #dcfce7 !important;
+      border-color: #16a34a !important;
+    }
+
+    .option-item.incorrect-bg {
+      background-color: #fee2e2 !important;
+      border-color: #dc2626 !important;
+    }
+
+    /* Justificativa / Feedback */
+    .feedback-box {
+      display: none;
+      background-color: #f8fafc;
+      border-left: 4px solid #0284c7;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: #000;
+    }
+
+    .feedback-box.show {
+      display: block;
+    }
+
+    .feedback-box strong {
+      color: #0284c7;
+    }
+
+    /* Botões de Ação na Ordem: [ Next ] [ Check ] [ Previous ] */
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .btn {
+      background-color: #dc2626;
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      flex: 1;
+      max-width: 150px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: #b91c1c;
+    }
+
+    .btn:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .btn-finish {
+      background-color: #16a34a;
+      max-width: 200px;
+    }
+
+    .btn-finish:hover {
+      background-color: #15803d;
+    }
+
+    /* Modal de Resultado Final */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background-color: #ffffff;
+      border: 3px solid #dc2626;
+      border-radius: 10px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      color: #000;
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
+
+    .modal-header h2 {
+      color: #dc2626;
+      font-size: 1.8rem;
+    }
+
+    .score-display {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 15px;
+      color: #0f172a;
+    }
+
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      background-color: #f8fafc;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .stat-value.correct { color: #16a34a; }
+    .stat-value.incorrect { color: #dc2626; }
+
+    .diagnostics-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
+
+    .diagnostics-list {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .modal-footer {
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+      .action-buttons {
+        flex-direction: row;
+      }
+      .btn {
+        padding: 10px 10px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="master.png" alt="Logo Master" class="logo" onerror="this.onerror=null; this.src='https://placehold.co/180x60/001026/ffffff?text=LOGO+MASTER';">
+    <h1>Simulado de Língua Inglesa - 9º Ano (Gramática Contextualizada)</h1>
+    <div class="nav-grid" id="nav-grid">
+      <!-- Botões de 1 a 20 gerados via JS -->
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="question-header">
+      <span class="question-title" id="question-title">Questão 1 de 20</span>
+      <span class="topic-badge" id="topic-badge">Reported Speech</span>
+    </div>
+
+    <!-- Caixa de Diálogo Contextualizada Acima da Questão -->
+    <div class="dialogue-context-box" id="dialogue-context-box">
+      <h4>Contexto / Diálogo:</h4>
+      <div id="dialogue-content"></div>
+    </div>
+
+    <!-- Enunciado -->
+    <div class="statement" id="statement-text">
+      <!-- Enunciado será carregado aqui -->
+    </div>
+
+    <!-- Opções -->
+    <div class="options-list" id="options-list">
+      <!-- Opções serão carregadas aqui -->
+    </div>
+
+    <!-- Justificativa -->
+    <div class="feedback-box" id="feedback-box">
+      <strong>Justificativa:</strong> <span id="feedback-text"></span>
+    </div>
+
+    <!-- Botões de Ação: [ Next ] [ Check ] [ Previous ] -->
+    <div class="action-buttons">
+      <button class="btn" id="btn-next" onclick="nextQuestion()">Next</button>
+      <button class="btn" id="btn-check" onclick="checkAnswer()">Check</button>
+      <button class="btn" id="btn-prev" onclick="prevQuestion()">Previous</button>
+    </div>
+  </main>
+
+  <!-- Modal de Resultado Final -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Resultado do Simulado</h2>
+      </div>
+      <div class="score-display" id="score-display">
+        Sua Nota: 0,0 / 10,0
+      </div>
+      <div class="stats-container">
+        <div class="stat-item">
+          <div>Acertos</div>
+          <div class="stat-value correct" id="stat-correct">0 (0%)</div>
+        </div>
+        <div class="stat-item">
+          <div>Erros</div>
+          <div class="stat-value incorrect" id="stat-incorrect">0 (0%)</div>
+        </div>
+      </div>
+      <div class="diagnostics-title">Diagnóstico e Recomendações Pedagógicas:</div>
+      <ul class="diagnostics-list" id="diagnostics-list">
+        <!-- Recomendações dinâmicas -->
+      </ul>
+      <div class="modal-footer">
+        <button class="btn btn-finish" onclick="restartQuiz()">Refazer Simulado</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 20 QUESTÕES CONTEXTUALIZADAS EM DIÁLOGOS:
+    // Q1 a Q10: Reported Speech (Backshift de tempos verbais + advérbios de tempo e lugar)
+    // Q11 a Q20: First & Second Conditionals (Mescla desafiadora entre estrutura/conjugação e função semântica no diálogo)
+    const rawQuestions = [
+      // ================= PARTE 1: REPORTED SPEECH (1 a 10) =================
+      {
+        id: 1,
+        category: "Reported Speech - Tempos Verbais e Advérbios de Tempo",
+        dialogue: `<strong>Lucas:</strong> Did you talk to Maya about the science fair project?<br><strong>Rafael:</strong> Yes! Yesterday morning she told me: <span class="highlight-sentence">"I am finishing the slides today."</span>`,
+        statement: "Ao relatar a fala exata de Maya posteriormente usando o <strong>Reported Speech</strong> (discurso indireto), qual alternativa aplica corretamente o recuo verbal (<em>backshift</em>) e a mudança do advérbio de tempo?",
+        correctKey: "C",
+        options: {
+          A: "Maya said that she is finishing the slides that day.",
+          B: "Maya said that she was finishing the slides today.",
+          C: "Maya said that she was finishing the slides that day.",
+          D: "Maya said that she finished the slides the previous day.",
+          E: "Maya said that I was finishing the slides that day."
+        },
+        justification: "Resposta correta: C. No Reported Speech, o Present Continuous ('am finishing') recua para o Past Continuous ('was finishing'), o pronome 'I' passa a 'she', e o advérbio 'today' transforma-se em 'that day'."
+      },
+      {
+        id: 2,
+        category: "Reported Speech - Simple Past e Advérbios de Tempo",
+        dialogue: `<strong>Teacher:</strong> Why wasn't Pedro at basketball practice?<br><strong>Bruno:</strong> He called me and said: <span class="highlight-sentence">"I twisted my ankle here yesterday."</span>`,
+        statement: "Assinale a alternativa que transpõe a fala de Bruno sobre Pedro para o <strong>Reported Speech</strong> respeitando simultaneamente o tempo verbal, o pronome possessivo e os advérbios de lugar e tempo:",
+        correctKey: "E",
+        options: {
+          A: "Pedro said that he twisted his ankle there yesterday.",
+          B: "Pedro said that he had twisted my ankle here the day before.",
+          C: "Pedro said that he was twisting his ankle there the day before.",
+          D: "Pedro said that he has twisted his ankle there the previous day.",
+          E: "Pedro said that he had twisted his ankle there the day before."
+        },
+        justification: "Resposta correta: E. O Simple Past ('twisted') recua para o Past Perfect ('had twisted'); 'my' torna-se 'his'; 'here' muda para 'there'; e 'yesterday' passa para 'the day before' (ou 'the previous day')."
+      },
+      {
+        id: 3,
+        category: "Reported Speech - Futuro (Will) e Advérbios de Tempo",
+        dialogue: `<strong>Sofia:</strong> Has the band confirmed the concert date?<br><strong>Manager:</strong> Yes. On Monday, the lead singer announced: <span class="highlight-sentence">"We will release the tickets tomorrow."</span>`,
+        statement: "Transformando o anúncio do vocalista para o <strong>Reported Speech</strong> dias depois, qual opção apresenta todas as adaptações gramaticais e adverbiais exigidas?",
+        correctKey: "A",
+        options: {
+          A: "The lead singer announced that they would release the tickets the following day.",
+          B: "The lead singer announced that they will release the tickets the next day.",
+          C: "The lead singer announced that we would release the tickets tomorrow.",
+          D: "The lead singer announced that they would released the tickets the following day.",
+          E: "The lead singer announced that they had released the tickets the day after."
+        },
+        justification: "Resposta correta: A. O modal 'will' recua para 'would' (seguido de verbo no infinitivo sem 'to': 'release'), 'we' passa a 'they', e 'tomorrow' transforma-se em 'the following day' (ou 'the next day')."
+      },
+      {
+        id: 4,
+        category: "Reported Speech - Present Perfect e Demonstrativos",
+        dialogue: `<strong>Clara:</strong> Where is the keys box?<br><strong>Security Guard:</strong> A student came by an hour ago and said: <span class="highlight-sentence">"I have just found these keys near the library."</span>`,
+        statement: "Para relatar o que o estudante disse ao guarda, qual frase emprega adequadamente o recuo do <em>Present Perfect</em> e a alteração do pronome demonstrativo?",
+        correctKey: "D",
+        options: {
+          A: "The student said that he has just found those keys near the library.",
+          B: "The student said that he had just found these keys near the library.",
+          C: "The student said that he just found those keys near the library.",
+          D: "The student said that he had just found those keys near the library.",
+          E: "The student said that he would just find those keys near the library."
+        },
+        justification: "Resposta correta: D. No Reported Speech, o Present Perfect ('have just found') recua para o Past Perfect ('had just found'), e o demonstrativo de proximidade 'these' altera-se para 'those'."
+      },
+      {
+        id: 5,
+        category: "Reported Speech - Modal Verbs e Advérbio 'Now'",
+        dialogue: `<strong>Nina:</strong> Could Diego help us carry the equipment?<br><strong>Leo:</strong> I asked him earlier, and he replied: <span class="highlight-sentence">"I can't leave this room right now."</span>`,
+        statement: "Assinale a alternativa que converte corretamente a resposta de Diego para o <strong>Reported Speech</strong>, ajustando o verbo modal, o demonstrativo e o advérbio de tempo:",
+        correctKey: "B",
+        options: {
+          A: "Diego replied that he couldn't leave this room right then.",
+          B: "Diego replied that he couldn't leave that room right then.",
+          C: "Diego replied that he can't leave that room right now.",
+          D: "Diego replied that he hadn't left that room right then.",
+          E: "Diego replied that he wouldn't leave that room right at the moment."
+        },
+        justification: "Resposta correta: B. O modal 'can't' recua para 'couldn't', o demonstrativo 'this' muda para 'that', e a expressão temporal 'right now' passa a 'right then' (ou 'at that moment')."
+      },
+      {
+        id: 6,
+        category: "Reported Speech - Simple Present e Referência de Lugar",
+        dialogue: `<strong>Aunt Laura:</strong> Why did Camila move to Recife?<br><strong>Mom:</strong> Before leaving, she explained: <span class="highlight-sentence">"My company opens a new branch here next month."</span>`,
+        statement: "Ao reportar a explicação de Camila para a tia Laura, qual alternativa realiza todas as transformações corretas de tempo verbal, lugar e futuro relativo?",
+        correctKey: "E",
+        options: {
+          A: "Camila explained that her company opened a new branch here the following month.",
+          B: "Camila explained that her company has opened a new branch there next month.",
+          C: "Camila explained that my company opened a new branch there the following month.",
+          D: "Camila explained that her company would open a new branch here the next month.",
+          E: "Camila explained that her company opened a new branch there the following month."
+        },
+        justification: "Resposta correta: E. O Simple Present ('opens') recua para o Simple Past ('opened'), 'my' muda para 'her', 'here' passa para 'there', e 'next month' torna-se 'the following month' (ou 'the next month')."
+      },
+      {
+        id: 7,
+        category: "Reported Speech - Past Continuous e Advérbio 'Last Night'",
+        dialogue: `<strong>Detective:</strong> What did the witness tell you about the alarm?<br><strong>Officer:</strong> She stated: <span class="highlight-sentence">"I was walking past this building last night when it rang."</span>`,
+        statement: "No relatório policial escrito em <strong>Reported Speech</strong>, como deve ser registrada a declaração da testemunha?",
+        correctKey: "A",
+        options: {
+          A: "She stated that she had been walking past that building the night before when it had rung.",
+          B: "She stated that she was walking past this building the previous night when it rang.",
+          C: "She stated that she had walked past that building last night when it had rung.",
+          D: "She stated that she would be walking past that building the night before when it rang.",
+          E: "She stated that she has been walking past that building the previous night when it rang."
+        },
+        justification: "Resposta correta: A. O Past Continuous ('was walking') recua para Past Perfect Continuous ('had been walking'), o Simple Past ('rang') para Past Perfect ('had rung'), 'this' muda para 'that', e 'last night' torna-se 'the night before' (ou 'the previous night')."
+      },
+      {
+        id: 8,
+        category: "Reported Speech - Negativa no Simple Present e 'Today'",
+        dialogue: `<strong>Gabriel:</strong> Is Coach Martins coming to the stadium?<br><strong>Assistant:</strong> No. He texted me saying: <span class="highlight-sentence">"I don't feel well enough to travel here today."</span>`,
+        statement: "Qual alternativa relata a mensagem de texto do treinador em <strong>Reported Speech</strong> sem nenhum deslize gramatical ou adverbial?",
+        correctKey: "C",
+        options: {
+          A: "He texted that he doesn't feel well enough to travel there that day.",
+          B: "He texted that he didn't felt well enough to travel there that day.",
+          C: "He texted that he didn't feel well enough to travel there that day.",
+          D: "He texted that he hadn't felt well enough to travel here that day.",
+          E: "He texted that he didn't feel well enough to travel there today."
+        },
+        justification: "Resposta correta: C. A negativa do Simple Present ('don't feel') recua para o Simple Past ('didn't feel' — com o verbo principal no infinitivo sem 'to'), 'here' passa a 'there' e 'today' torna-se 'that day'."
+      },
+      {
+        id: 9,
+        category: "Reported Speech - Expressão 'Ago' e Simple Past",
+        dialogue: `<strong>Beatriz:</strong> Did Arthur already return the history book?<br><strong>Librarian:</strong> Yes, he dropped it off and said: <span class="highlight-sentence">"I finished reading it two days ago."</span>`,
+        statement: "Observe o marcador temporal <em>'two days ago'</em> na fala de Arthur. Ao passarmos essa sentença para o <strong>Reported Speech</strong>, qual é a única opção inteiramente correta?",
+        correctKey: "D",
+        options: {
+          A: "Arthur said that he finished reading it two days ago.",
+          B: "Arthur said that he had finished reading it two days ago.",
+          C: "Arthur said that he has finished reading it two days before.",
+          D: "Arthur said that he had finished reading it two days before.",
+          E: "Arthur said that he was finishing reading it two days earlier."
+        },
+        justification: "Resposta correta: D. No Reported Speech, 'ago' transforma-se em 'before' (ou 'earlier'), e o Simple Past ('finished') recua para o Past Perfect ('had finished')."
+      },
+      {
+        id: 10,
+        category: "Reported Speech - Uso de 'Tell' vs 'Say' e Advérbios",
+        dialogue: `<strong>Helena:</strong> Why are you packing your umbrella?<br><strong>Lucas:</strong> Because the weather reporter warned us: <span class="highlight-sentence">"Heavy rain will hit this region tonight."</span>`,
+        statement: "Reescrevendo o aviso meteorológico no <strong>Reported Speech</strong> com o verbo introdutório <em>told</em>, assinale a alternativa correta:",
+        correctKey: "B",
+        options: {
+          A: "The reporter told that heavy rain would hit that region that night.",
+          B: "The reporter told us that heavy rain would hit that region that night.",
+          C: "The reporter told us that heavy rain will hit this region tonight.",
+          D: "The reporter told to us that heavy rain would hit that region that night.",
+          E: "The reporter told us that heavy rain would hit this region that night."
+        },
+        justification: "Resposta correta: B. O verbo 'told' exige objeto indireto direto sem preposição ('told us', nunca 'told that' ou 'told to us'); 'will' recua para 'would', 'this' muda para 'that' e 'tonight' torna-se 'that night'."
+      },
+
+      // ================= PARTE 2: FIRST & SECOND CONDITIONALS (11 a 20) =================
+      {
+        id: 11,
+        category: "First vs Second Conditional - Escolha de Estrutura pelo Contexto",
+        dialogue: `<strong>Marina:</strong> Look at the sky! Those dark clouds are moving super fast, and we still have three kilometers to walk.<br><strong>Tiago:</strong> Yeah, we need to hurry up. If we _______ a shelter soon, we _______ completely soaked!`,
+        statement: "Considerando a iminência real da chuva no diálogo entre Marina e Tiago, assinale a alternativa que completa as lacunas com a estrutura condicional adequada ao contexto:",
+        correctKey: "E",
+        options: {
+          A: "didn't find / would get",
+          B: "won't find / get",
+          C: "don't find / would get",
+          D: "hadn't found / will get",
+          E: "don't find / will get"
+        },
+        justification: "Resposta correta: E. O contexto descreve uma ameaça real e iminente no futuro próximo (nuvens escuras se aproximando), exigindo a First Conditional: If + Simple Present ('don't find'), will + verbo base ('will get')."
+      },
+      {
+        id: 12,
+        category: "Second Conditional - Interpretação Semântica no Diálogo",
+        dialogue: `<strong>Davi:</strong> I wish I could travel to Japan this semester to practice my Japanese.<br><strong>Letícia:</strong> Me too! <span class="highlight-sentence">If plane tickets didn't cost a fortune, I would book a flight right now.</span>`,
+        statement: "Analisando o diálogo e a sentença destacada na <strong>Second Conditional</strong>, o que a fala de Letícia pressupõe sobre a realidade atual dela?",
+        correctKey: "A",
+        options: {
+          A: "As passagens aéreas são caras demais no momento, tornando a compra imediata uma hipótese irreal.",
+          B: "Ela pretende comprar a passagem ainda hoje porque os preços acabaram de cair.",
+          C: "Ela já viajou para o Japão recentemente e se arrependeu do valor gasto na passagem.",
+          D: "Sempre que as passagens ficam baratas, ela viaja para o Japão por hábito.",
+          E: "Ela tem certeza de que as companhias aéreas vão reduzir os preços amanhã."
+        },
+        justification: "Resposta correta: A. A Second Conditional ('If plane tickets didn't cost... I would book...') expressa uma condição contrária aos fatos presentes: no momento atual, as passagens custam uma fortuna, logo ela não pode reservar o voo agora."
+      },
+      {
+        id: 13,
+        category: "Second Conditional - Conjugação e Conselho Hipotético",
+        dialogue: `<strong>Igor:</strong> My laptop keeps freezing every ten minutes, and I have to submit my final essay by midnight.<br><strong>Camila:</strong> Honestly, if I _______ in your shoes, I _______ my work to the cloud immediately before it crashes again.`,
+        statement: "Camila está dando um conselho colocando-se hipoteticamente no lugar de Igor. Qual alternativa preenche corretamente as lacunas na forma padrão da <strong>Second Conditional</strong>?",
+        correctKey: "C",
+        options: {
+          A: "am / would save",
+          B: "were / will save",
+          C: "were / would save",
+          D: "was / saved",
+          E: "would be / saved"
+        },
+        justification: "Resposta correta: C. Para dar conselhos hipotéticos com 'If I were you / in your shoes', utiliza-se a Second Conditional: 'were' (subjuntivo passado padrão para todas as pessoas na if-clause) + 'would + verbo base' ('would save')."
+      },
+      {
+        id: 14,
+        category: "First Conditional - Função Comunicativa (Barganha / Negociação)",
+        dialogue: `<strong>Father:</strong> Your grades in Math dropped a bit this term, Lucas.<br><strong>Lucas:</strong> I know, Dad. <span class="highlight-sentence">If I score above 8.5 on Friday's exam, will you let me go to the music festival?</span>`,
+        statement: "Com base na estrutura da <strong>First Conditional</strong> utilizada por Lucas na pergunta destacada, qual é a função comunicativa dessa fala dentro do diálogo?",
+        correctKey: "D",
+        options: {
+          A: "Lamentar uma nota baixa que ele já tirou na prova de sexta-feira passada.",
+          B: "Descrever uma lei científica sobre como estudar matemática melhora o desempenho musical.",
+          C: "Imaginar uma situação impossível, já que a prova de sexta-feira foi cancelada.",
+          D: "Propor uma condição real e alcançável no futuro como moeda de troca para obter autorização.",
+          E: "Afirmar que ele já tirou mais de 8,5 e está apenas avisando que vai ao festival."
+        },
+        justification: "Resposta correta: D. A First Conditional ('If I score..., will you let...?') é amplamente usada em negociações, promessas e condições reais voltadas para um evento futuro possível (a prova de sexta-feira)."
+      },
+      {
+        id: 15,
+        category: "Second Conditional - Contraste de Realidade Presente",
+        dialogue: `<strong>Professor Silva:</strong> Why don't we run the robotics simulation on all thirty school computers simultaneously?<br><strong>Lab Tech:</strong> That's impossible with our current hardware. Our local server _______ down if all thirty machines _______ the software at the same time.`,
+        statement: "Observe a ordem invertida das orações e o fato de o técnico afirmar que o cenário é impossível com o hardware atual. Qual alternativa completa a frase corretamente?",
+        correctKey: "B",
+        options: {
+          A: "will crash / ran",
+          B: "would crash / ran",
+          C: "would crashed / run",
+          D: "crashes / would run",
+          E: "will crash / run"
+        },
+        justification: "Resposta correta: B. Como o técnico deixa claro que rodar o software simultaneamente não vai acontecer ('That's impossible'), trata-se de uma hipótese na Second Conditional invertida: 'would crash' (oração principal) + 'if + Simple Past' ('ran')."
+      },
+      {
+        id: 16,
+        category: "First vs Second Conditional - Nuance de Probabilidade",
+        dialogue: `<strong>Alice:</strong> I bought a lottery ticket yesterday! Imagine winning ten million dollars!<br><strong>Ben:</strong> Keep dreaming! Even if you _______ the jackpot, you probably _______ half of it on vintage guitars on the first day.`,
+        statement: "Ben trata a vitória na loteria como um sonho distante e improvável ('Keep dreaming!'). Assinale a opção que preenche as lacunas mantendo a coerência semântica e gramatical:",
+        correctKey: "E",
+        options: {
+          A: "win / will spend",
+          B: "won / will spend",
+          C: "would win / spent",
+          D: "win / would spent",
+          E: "won / would spend"
+        },
+        justification: "Resposta correta: E. Ganhar na loteria é tratado no diálogo como uma hipótese altamente improvável/imaginária, demandando a Second Conditional: 'won' (Simple Past) na oração condicional e 'would spend' na oração principal."
+      },
+      {
+        id: 17,
+        category: "First Conditional - Uso de 'Unless' e Conjugação",
+        dialogue: `<strong>Coach:</strong> Our team is only two points behind the leaders.<br><strong>Captain:</strong> Exactly. We _______ the championship trophy unless we _______ focused during the final match.`,
+        statement: "Sabendo que <em>unless</em> equivale a <em>if... not</em> e que o capitão fala de uma disputa real e decisiva no próximo jogo, qual alternativa completa a sentença corretamente?",
+        correctKey: "A",
+        options: {
+          A: "won't win / stay",
+          B: "wouldn't win / stayed",
+          C: "won't win / don't stay",
+          D: "will win / stayed",
+          E: "wouldn't win / stay"
+        },
+        justification: "Resposta correta: A. 'Unless' já carrega sentido negativo ('se não'), portanto o verbo seguinte deve ficar na afirmativa do Simple Present ('stay'), enquanto a consequência futura na First Conditional vai na negativa ('won't win': Não venceremos a menos que permaneçamos focados)."
+      },
+      {
+        id: 18,
+        category: "Second Conditional - Verbos Irregulares e Negativa",
+        dialogue: `<strong>Julia:</strong> Are you going to join the debate club with us?<br><strong>Matheus:</strong> I'd love to, but I have soccer training every afternoon. If I _______ practice on Tuesdays and Thursdays, I _______ definitely sign up.`,
+        statement: "Matheus explica que tem treino todas as tardes, o que o impede de entrar no clube. Complete a frase hipotética de Matheus corretamente:",
+        correctKey: "D",
+        options: {
+          A: "don't have / would",
+          B: "didn't had / would",
+          C: "hadn't / will",
+          D: "didn't have / would",
+          E: "doesn't have / will"
+        },
+        justification: "Resposta correta: D. Como Matheus de fato tem treinos às terças e quintas, a ausência de treino é uma hipótese contrária à realidade presente (Second Conditional): negativa no Simple Past ('didn't have') + modal 'would' antes de 'definitely sign up'."
+      },
+      {
+        id: 19,
+        category: "Análise Comparativa - First vs Second Conditional",
+        dialogue: `<strong>Scenario 1 (Student studying hard for tomorrow's quiz):</strong> "If I review these irregular verbs tonight, I will get a great grade."<br><strong>Scenario 2 (Student who forgot the book at school):</strong> "If I had my book here now, I would review the irregular verbs."`,
+        statement: "Comparando as duas falas apresentadas na caixa de diálogo acima, assinale a análise gramatical e semântica <strong>verdadeira</strong>:",
+        correctKey: "C",
+        options: {
+          A: "Ambas as frases expressam situações impossíveis no passado, mudando apenas o estilo formal ou informal.",
+          B: "No Cenário 1, o aluno não tem intenção de estudar; no Cenário 2, ele já está com o livro na mão.",
+          C: "O Cenário 1 usa a First Conditional para uma ação futura real e planejada, enquanto o Cenário 2 usa a Second Conditional para lamentar uma impossibilidade no presente.",
+          D: "O verbo 'had' no Cenário 2 indica que o aluno teve o livro na semana passada, caracterizando o Past Perfect.",
+          E: "As duas orações poderiam trocar 'will' por 'would' sem qualquer alteração no grau de probabilidade real das situações."
+        },
+        justification: "Resposta correta: C. O Cenário 1 emprega a First Conditional ('If I review..., I will get...') porque revisar hoje à noite é uma ação real e factível. O Cenário 2 usa a Second Conditional ('If I had... now, I would review...') porque ele não está com o livro no presente."
+      },
+      {
+        id: 20,
+        category: "Second Conditional - Hipótese e Consequência Negativa",
+        dialogue: `<strong>Bianca:</strong> Why doesn't Lucas speak up during our English presentations? His pronunciation is really good!<br><strong>Caio:</strong> He's just super shy. If he _______ so afraid of making mistakes in front of the class, he _______ much more confident.`,
+        statement: "Caio atribui a timidez de Lucas ao medo atual de errar em público. Assinale a alternativa que completa a frase na <strong>Second Conditional</strong> expressando o contraste com a realidade:",
+        correctKey: "B",
+        options: {
+          A: "isn't / would sound",
+          B: "weren't / would sound",
+          C: "wasn't / will sound",
+          D: "weren't / sounded",
+          E: "didn't be / would sound"
+        },
+        justification: "Resposta correta: B. Na Second Conditional com o verbo 'to be' na negativa, utiliza-se 'weren't' (forma culta padrão para todas as pessoas, inclusive 'he') na oração condicional, seguido de 'would + verbo base' ('would sound') na oração principal."
+      }
+    ];
+
+    // ESTADO DA APLICAÇÃO E EMBARALHAMENTO DO GABARITO (Fisher-Yates)
+    let processedQuestions = [];
+    let userAnswers = {};
+    let checkedQuestions = {};
+    let currentQuestionIndex = 0;
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function initQuizData() {
+      processedQuestions = rawQuestions.map((q) => {
+        const originalKeys = ['A', 'B', 'C', 'D', 'E'];
+        const optionsList = originalKeys.map(key => ({
+          originalKey: key,
+          text: q.options[key]
+        }));
+
+        // Embaralhamento das opções para evitar padrões repetitivos
+        const shuffledOptions = shuffleArray(optionsList);
+
+        const newLetterLabels = ['A', 'B', 'C', 'D', 'E'];
+        let mappedCorrectLetter = '';
+
+        const finalOptions = shuffledOptions.map((opt, index) => {
+          const currentLabel = newLetterLabels[index];
+          if (opt.originalKey === q.correctKey) {
+            mappedCorrectLetter = currentLabel;
+          }
+          return {
+            label: currentLabel,
+            text: opt.text,
+            originalKey: opt.originalKey
+          };
+        });
+
+        return {
+          ...q,
+          displayOptions: finalOptions,
+          correctDisplayLetter: mappedCorrectLetter
+        };
+      });
+    }
+
+    function buildNavGrid() {
+      const navGrid = document.getElementById('nav-grid');
+      navGrid.innerHTML = '';
+      for (let i = 0; i < processedQuestions.length; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn';
+        btn.id = `nav-btn-${i}`;
+        btn.innerText = i + 1;
+        btn.onclick = () => jumpToQuestion(i);
+        navGrid.appendChild(btn);
+      }
+      updateNavStatus();
+    }
+
+    function updateNavStatus() {
+      for (let i = 0; i < processedQuestions.length; i++) {
+        const btn = document.getElementById(`nav-btn-${i}`);
+        if (!btn) continue;
+        btn.classList.remove('active', 'correct', 'incorrect');
+
+        if (i === currentQuestionIndex) {
+          btn.classList.add('active');
+        }
+
+        if (checkedQuestions[i]) {
+          const isCorrect = userAnswers[i] === processedQuestions[i].correctDisplayLetter;
+          if (isCorrect) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('incorrect');
+          }
+        }
+      }
+    }
+
+    function renderQuestion(index) {
+      const q = processedQuestions[index];
+      const total = processedQuestions.length;
+
+      document.getElementById('question-title').innerText = `Questão ${index + 1} de ${total}`;
+      document.getElementById('topic-badge').innerText = index < 10 ? 'Parte 1: Reported Speech' : 'Parte 2: Conditionals';
+
+      // Caixa de Diálogo Contextualizada Acima da Questão
+      const dialogueContent = document.getElementById('dialogue-content');
+      dialogueContent.innerHTML = q.dialogue;
+
+      document.getElementById('statement-text').innerHTML = q.statement;
+
+      const optionsContainer = document.getElementById('options-list');
+      optionsContainer.innerHTML = '';
+
+      const isChecked = checkedQuestions[index];
+
+      q.displayOptions.forEach((opt) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'option-item';
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = `option-${index}`;
+        radio.value = opt.label;
+        radio.id = `opt-${opt.label}`;
+        radio.disabled = !!isChecked;
+
+        if (userAnswers[index] === opt.label) {
+          radio.checked = true;
+          itemDiv.classList.add('selected');
+        }
+
+        if (isChecked) {
+          if (opt.label === q.correctDisplayLetter) {
+            itemDiv.classList.add('correct-bg');
+          } else if (userAnswers[index] === opt.label) {
+            itemDiv.classList.add('incorrect-bg');
+          }
+        } else {
+          itemDiv.onclick = () => selectOption(index, opt.label);
+        }
+
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'option-text';
+        labelSpan.innerHTML = `<strong>${opt.label})</strong> ${opt.text}`;
+
+        itemDiv.appendChild(radio);
+        itemDiv.appendChild(labelSpan);
+        optionsContainer.appendChild(itemDiv);
+      });
+
+      const feedbackBox = document.getElementById('feedback-box');
+      const feedbackText = document.getElementById('feedback-text');
+      if (isChecked) {
+        let textJust = q.justification;
+        textJust = textJust.replace(/Resposta correta: [A-E]\./, `Resposta correta: ${q.correctDisplayLetter}.`);
+        feedbackText.innerText = textJust;
+        feedbackBox.classList.add('show');
+      } else {
+        feedbackBox.classList.remove('show');
+      }
+
+      const btnCheck = document.getElementById('btn-check');
+      btnCheck.disabled = !userAnswers[index] || isChecked;
+
+      const btnNext = document.getElementById('btn-next');
+      if (index === processedQuestions.length - 1) {
+        btnNext.innerText = 'Finish';
+        btnNext.classList.add('btn-finish');
+      } else {
+        btnNext.innerText = 'Next';
+        btnNext.classList.remove('btn-finish');
+      }
+
+      const btnPrev = document.getElementById('btn-prev');
+      btnPrev.disabled = index === 0;
+
+      updateNavStatus();
+    }
+
+    function selectOption(qIndex, label) {
+      if (checkedQuestions[qIndex]) return;
+      userAnswers[qIndex] = label;
+
+      const items = document.querySelectorAll('.option-item');
+      items.forEach(item => item.classList.remove('selected'));
+
+      const radio = document.getElementById(`opt-${label}`);
+      if (radio) {
+        radio.checked = true;
+        radio.closest('.option-item').classList.add('selected');
+      }
+
+      document.getElementById('btn-check').disabled = false;
+    }
+
+    function checkAnswer() {
+      if (!userAnswers[currentQuestionIndex]) return;
+      checkedQuestions[currentQuestionIndex] = true;
+      renderQuestion(currentQuestionIndex);
+    }
+
+    function jumpToQuestion(index) {
+      currentQuestionIndex = index;
+      renderQuestion(currentQuestionIndex);
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIndex < processedQuestions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion(currentQuestionIndex);
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion(currentQuestionIndex);
+      }
+    }
+
+    function finishQuiz() {
+      let totalCorrect = 0;
+      let reportedErrors = 0;
+      let conditionalErrors = 0;
+
+      processedQuestions.forEach((q, idx) => {
+        const userAns = userAnswers[idx];
+        if (userAns === q.correctDisplayLetter) {
+          totalCorrect++;
+        } else {
+          if (idx < 10) {
+            reportedErrors++;
+          } else {
+            conditionalErrors++;
+          }
+        }
+      });
+
+      const totalQuestions = processedQuestions.length;
+      const totalIncorrect = totalQuestions - totalCorrect;
+      const score = ((totalCorrect / totalQuestions) * 10).toFixed(1);
+
+      const correctPct = Math.round((totalCorrect / totalQuestions) * 100);
+      const incorrectPct = Math.round((totalIncorrect / totalQuestions) * 100);
+
+      document.getElementById('score-display').innerText = `Sua Nota: ${score.replace('.', ',')} / 10,0`;
+      document.getElementById('stat-correct').innerText = `${totalCorrect} (${correctPct}%)`;
+      document.getElementById('stat-incorrect').innerText = `${totalIncorrect} (${incorrectPct}%)`;
+
+      const diagnosticsList = document.getElementById('diagnostics-list');
+      diagnosticsList.innerHTML = '';
+
+      let needsRevision = false;
+
+      if (reportedErrors > 3) {
+        needsRevision = true;
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>Reported Speech (${10 - reportedErrors}/10 acertos):</strong> Revisar o recuo dos tempos verbais (<em>Present → Past</em>, <em>Past → Past Perfect</em>, <em>will → would</em>, <em>can → could</em>) e a conversão de marcadores de tempo e lugar (<em>today → that day</em>, <em>yesterday → the day before</em>, <em>tomorrow → the following day</em>, <em>here → there</em>, <em>this → that</em>).`;
+        diagnosticsList.appendChild(li);
+      }
+
+      if (conditionalErrors > 3) {
+        needsRevision = true;
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>First & Second Conditionals (${10 - conditionalErrors}/10 acertos):</strong> Praticar a distinção entre possibilidades reais no futuro (<em>If + Simple Present, will + base</em>) e situações hipotéticas ou improváveis no presente (<em>If + Simple Past/were, would + base</em>), atentando ao sentido do diálogo.`;
+        diagnosticsList.appendChild(li);
+      }
+
+      if (!needsRevision) {
+        const li = document.createElement('li');
+        li.innerHTML = "<strong>Excelente desempenho!</strong> Você demonstrou domínio consistente tanto nas transformações do <em>Reported Speech</em> quanto nas nuances estruturais e semânticas das <em>First</em> e <em>Second Conditionals</em>.";
+        diagnosticsList.appendChild(li);
+      }
+
+      document.getElementById('modal-overlay').style.display = 'flex';
+    }
+
+    function restartQuiz() {
+      userAnswers = {};
+      checkedQuestions = {};
+      currentQuestionIndex = 0;
+      document.getElementById('modal-overlay').style.display = 'none';
+      initQuizData();
+      buildNavGrid();
+      renderQuestion(0);
+    }
+
+    window.onload = function() {
+      initQuizData();
+      buildNavGrid();
+      renderQuestion(0);
+    };
+  </script>
+</body>
+</html>
